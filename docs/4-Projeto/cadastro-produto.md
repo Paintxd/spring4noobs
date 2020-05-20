@@ -73,12 +73,13 @@ public String cadastro(@Valid Produto produto, BindingResult bindingResult, Mode
     if(bindingResult.hasErrors()) {
         return "produtoForm";
     }
-    try {
-        produtosRepo.save(produto);
-    } catch(Exception e) {
-        bindingResult.addError(new FieldError("produto", "nome", "Produto ja cadastrado"));
-        return "produtoForm";
-    }
+
+		List<Produto> produtos = produtosRepo.findAll();
+		for (Produto produtoTest : produtos)
+			if(produtoTest.getNome().equals(produto.getNome())) {
+				bindingResult.addError(new FieldError("produto", "nome", "Nome duplicado"));
+				return "produtoUpdate";
+			}
     
     return "redirect:/estoque";
 }
@@ -87,6 +88,6 @@ public String cadastro(@Valid Produto produto, BindingResult bindingResult, Mode
 * BindingResult: esta interface é responsavel por pegar os resultados do form e utilizamos ela para verificar se existe algum erro
   * bindingResult.hasErrors: Caso ocorra algum erro forçamos o retorno para o produtoForm exibindo agora as mensagens de erro de uma forma elegante
 * produtoRepo.save: responsavel por guardar nossos dados no banco de dados.
-* Como não existe uma annotation para fazer a verificação da condicional que colocamos no banco para o nome do produto ser unico, fazemos este try catch, caso no save retorne um erro sql, criamos um novo _field error_ e retornamos a mensagem de este produto ja existe.
+* Como não existe uma annotation para fazer a verificação da condicional que colocamos no banco para o nome do produto ser unico, fazemos este for, caso algum dos nomes cadastrados seja igual ao do form criamos um novo _field error_ e retornamos a mensagem de este produto ja existe.
 
 [Proxima seção](./cadastro-update-estoque.md)
