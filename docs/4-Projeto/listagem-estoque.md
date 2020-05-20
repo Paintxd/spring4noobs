@@ -1,3 +1,12 @@
+#### Antes de tudo, agora que iremos começar trabalhar mais com modificações e visualização, adicione a dependencia _Spring dev tools_, ela serve para o hot reload de sua aplicação, sempre que você salvar alguma alteração seu projeto ira resetar automaticamente
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-devtools</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
 # Listagem de estoque
 
 #### Com seus models e seus repositories prontos vá ao package controllers e crie seu _EstoqueController_, como ja sabemos precisamos adicionar a annotation _@Controller_ e só para ficar coerente adicione _@RequestMappig_ para _/estoque_.
